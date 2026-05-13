@@ -477,6 +477,9 @@ body {
 </div>
 
 <script>
+// ← Cole aqui a URL do Google Apps Script após configurar
+const SCRIPT_URL = ''
+
 const QUESTIONS = [
   {
     id: 'nome',
@@ -709,8 +712,12 @@ function renderQ() {
 
   const area = document.getElementById('question-area')
   area.innerHTML = buildHTML(q)
-  window.scrollTo(0, 0)
   restoreAnswer(q)
+  requestAnimationFrame(() => {
+    window.scrollTo(0, 0)
+    document.documentElement.scrollTop = 0
+    document.body.scrollTop = 0
+  })
 }
 
 function buildHTML(q) {
@@ -896,9 +903,22 @@ function finish() {
     _data: new Date().toLocaleString('pt-BR'),
     ...answers
   }
-  const all = JSON.parse(localStorage.getItem('ml_respostas') || '[]')
-  all.push(record)
-  localStorage.setItem('ml_respostas', JSON.stringify(all))
+
+  // Envia para o Google Sheets (funciona de qualquer dispositivo)
+  if (SCRIPT_URL) {
+    fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      body: JSON.stringify(record)
+    }).catch(() => {})
+  }
+
+  // Salva localmente como backup
+  try {
+    const all = JSON.parse(localStorage.getItem('ml_respostas') || '[]')
+    all.push(record)
+    localStorage.setItem('ml_respostas', JSON.stringify(all))
+  } catch(e) {}
 
   document.getElementById('screen-quiz').classList.add('hidden')
   document.getElementById('screen-done').classList.remove('hidden')

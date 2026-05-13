@@ -404,9 +404,9 @@ body {
 </div>
 
 <script>
-// ── CHANGE PASSWORD HERE ──
 const ADMIN_PASSWORD = 'stimulos2026'
-// ─────────────────────────
+// ← Cole aqui a mesma URL do Google Apps Script
+const SCRIPT_URL = ''
 
 const FIELDS = {
   nome:                 'Nome',
@@ -459,7 +459,14 @@ function logout() {
   document.getElementById('login-err').style.display = 'none'
 }
 
-function getAll() {
+async function getAll() {
+  if (SCRIPT_URL) {
+    try {
+      const res = await fetch(SCRIPT_URL + '?t=' + Date.now())
+      const data = await res.json()
+      return Array.isArray(data) ? data.reverse() : []
+    } catch(e) { return [] }
+  }
   return JSON.parse(localStorage.getItem('ml_respostas') || '[]')
 }
 
@@ -483,9 +490,9 @@ function setView(v) {
   renderDash()
 }
 
-function renderDash() {
+async function renderDash() {
   const q = (document.getElementById('search-input')?.value || '').toLowerCase().trim()
-  let all = getAll()
+  let all = await getAll()
   if (q) {
     all = all.filter(r => {
       return Object.values(r).some(v => v && v.toString().toLowerCase().includes(q))
@@ -494,7 +501,7 @@ function renderDash() {
   all.sort((a, b) => b._id - a._id)
 
   // Stats
-  const full = getAll()
+  const full = await getAll()
   const statsEl = document.getElementById('stats-bar')
   statsEl.innerHTML = `
     <div class="stat-card">
@@ -606,8 +613,8 @@ function escHtml(str) {
     .replace(/"/g, '&quot;')
 }
 
-function exportCSV() {
-  const all = getAll()
+async function exportCSV() {
+  const all = await getAll()
   if (!all.length) { alert('Nenhuma resposta para exportar.'); return }
 
   const cols = ['_data', 'nome', ...Object.keys(FIELDS)]
