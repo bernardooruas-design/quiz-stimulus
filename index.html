@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Anamnese · Stimulus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { height: 100%; }
+body {
+  min-height: 100%;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #06090F;
+  color: #F1F5F9;
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+
+/* ============ WELCOME ============ */
+#screen-welcome {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 24px 48px;
+  text-align: center;
+}
+.logo-area { margin-bottom: 24px; }
+.logo-area img { height: 68px; object-fit: contain; }
+.logo-placeholder {
+  height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  color: #374151;
+  border: 1.5px dashed #1E2D45;
+  border-radius: 10px;
+  padding: 0 20px;
+  letter-spacing: 0.5px;
+}
+.hero-photo {
+  width: 100%;
+  max-width: 480px;
+  border-radius: 18px;
+  overflow: hidden;
+  margin-bottom: 28px;
+  aspect-ratio: 4/3;
+  background: #0D1420;
+  border: 1px solid #1E2D45;
+  position: relative;
+}
+.hero-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.hero-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: #374151;
+  font-size: 13px;
+  border: 2px dashed #1E2D45;
+  border-radius: 18px;
+}
+.hero-placeholder span { font-size: 32px; opacity: 0.4; }
+.welcome-content { max-width: 440px; width: 100%; }
+.welcome-badge {
+  display: inline-block;
+  background: rgba(0, 0, 255, 0.15);
+  border: 1px solid rgba(0, 0, 255, 0.35);
+  color: #99AAFF;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border-radius: 20px;
+  margin-bottom: 14px;
+}
+.welcome-title {
+  font-size: 34px;
+  font-weight: 900;
+  letter-spacing: -0.5px;
+  margin-bottom: 6px;
+  line-height: 1.05;
+}
+.accent-red { color: #0000FF; }
+.accent-orange { color: #0000FF; }
+.accent-gold { color: #99AAFF; }
+.divider {
+  width: 44px; height: 3px;
+  background: linear-gradient(90deg, #0000FF, #0000FF);
+  border-radius: 2px;
+  margin: 16px auto 20px;
+}
+.welcome-desc {
+  font-size: 15px;
+  line-height: 1.7;
+  color: #94A3B8;
+  margin-bottom: 10px;
+}
+.welcome-desc strong { color: #0000FF; font-weight: 700; }
+.welcome-note {
+  font-size: 13px;
+  color: #4B5563;
+  margin-bottom: 32px;
+  line-height: 1.6;
+}
+.welcome-note .hl { color: #99AAFF; font-weight: 600; }
+.btn-welcome {
+  width: 100%;
+  max-width: 440px;
+  background: linear-gradient(135deg, #0000FF, #0000CC);
+  color: white;
+  padding: 17px 32px;
+  border: none;
+  border-radius: 14px;
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 8px 32px rgba(0, 0, 255, 0.4);
+  transition: all 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn-welcome:hover { box-shadow: 0 12px 40px rgba(0, 0, 255, 0.55); transform: translateY(-2px); }
+.btn-welcome:active { transform: scale(0.98); }
+
+/* ============ QUIZ SCREEN ============ */
+#screen-quiz { min-height: 100vh; display: flex; flex-direction: column; }
+.quiz-header {
+  padding: 14px 20px 0;
+  background: #06090F;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-bottom: 1px solid transparent;
+}
+.logo-small { display: flex; justify-content: center; margin-bottom: 12px; }
+.logo-small img { height: 36px; object-fit: contain; }
+.logo-small-placeholder {
+  height: 36px;
+  width: 120px;
+  border: 1.5px dashed #1E2D45;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: #374151;
+}
+.progress-wrap { width: 100%; }
+.progress-track {
+  width: 100%;
+  height: 4px;
+  background: #1E2D45;
+  border-radius: 2px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #0000FF, #0000FF);
+  border-radius: 2px;
+  transition: width 0.45s cubic-bezier(0.4,0,0.2,1);
+}
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 7px;
+  padding-bottom: 10px;
+}
+.progress-label { font-size: 11px; color: #4B5563; font-weight: 500; }
+.progress-pct { font-size: 11px; color: #0000FF; font-weight: 700; }
+
+/* Question */
+.question-area {
+  flex: 1;
+  padding: 28px 20px 110px;
+  max-width: 580px;
+  width: 100%;
+  margin: 0 auto;
+}
+.question-block { animation: slideUp 0.3s ease; }
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.q-step {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: #0000FF;
+  margin-bottom: 8px;
+}
+.q-title {
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: -0.3px;
+  margin-bottom: 6px;
+  color: #F1F5F9;
+}
+.q-subtitle {
+  font-size: 13px;
+  color: #6B7A90;
+  font-style: italic;
+  margin-bottom: 22px;
+  line-height: 1.55;
+}
+.q-body { margin-top: 20px; }
+
+/* Options */
+.options-list { display: flex; flex-direction: column; gap: 9px; }
+.option-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 13px 15px;
+  border: 1.5px solid #1A2535;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  background: #0D1420;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.option-item:active { transform: scale(0.985); }
+.option-item.selected {
+  border-color: #0000FF;
+  background: rgba(0, 0, 255, 0.1);
+}
+.o-dot {
+  width: 21px; height: 21px;
+  border-radius: 50%;
+  border: 2px solid #2D3748;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.15s, background 0.15s;
+}
+.option-item.selected .o-dot { border-color: #0000FF; background: #0000FF; }
+.o-dot::after {
+  content: '';
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: white;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.option-item.selected .o-dot::after { opacity: 1; }
+.o-label { font-size: 14px; font-weight: 500; color: #94A3B8; line-height: 1.4; }
+.option-item.selected .o-label { color: #F1F5F9; }
+
+/* Text inputs */
+.input-text {
+  width: 100%;
+  background: #0D1420;
+  border: 1.5px solid #1A2535;
+  border-radius: 12px;
+  padding: 14px 16px;
+  font-size: 15px;
+  color: #F1F5F9;
+  font-family: 'Inter', sans-serif;
+  transition: border-color 0.18s;
+  outline: none;
+  resize: none;
+  -webkit-appearance: none;
+}
+.input-text:focus { border-color: #0000FF; }
+.input-text::placeholder { color: #374151; }
+.unit-row { display: flex; align-items: stretch; gap: 10px; }
+.unit-row .input-text { flex: 1; }
+.unit-badge {
+  background: #0D1420;
+  border: 1.5px solid #1A2535;
+  border-radius: 12px;
+  padding: 14px 16px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #4B5563;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.char-counter { text-align: right; font-size: 11px; color: #374151; margin-top: 6px; }
+
+/* Followup */
+.followup-box {
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition: max-height 0.3s ease, opacity 0.3s ease, margin-top 0.3s ease;
+  margin-top: 0;
+}
+.followup-box.open { max-height: 160px; opacity: 1; margin-top: 12px; }
+.followup-label { font-size: 12px; color: #6B7A90; margin-bottom: 7px; font-weight: 500; }
+
+/* Error */
+.err-msg {
+  color: #99AAFF;
+  font-size: 12px;
+  margin-top: 10px;
+  display: none;
+  font-weight: 500;
+}
+
+/* ============ STICKY FOOTER ============ */
+.quiz-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0; right: 0;
+  padding: 10px 20px 30px;
+  background: linear-gradient(to top, #06090F 65%, transparent);
+  display: flex;
+  justify-content: center;
+}
+.quiz-footer-inner {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  max-width: 580px;
+}
+.btn {
+  padding: 15px 20px;
+  border: none;
+  border-radius: 12px;
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  -webkit-tap-highlight-color: transparent;
+  letter-spacing: 0.3px;
+}
+.btn:active { transform: scale(0.97); }
+.btn-primary {
+  flex: 1;
+  background: linear-gradient(135deg, #0000FF, #0000CC);
+  color: white;
+  box-shadow: 0 4px 20px rgba(220,38,38,0.35);
+}
+.btn-primary:hover { box-shadow: 0 6px 28px rgba(220,38,38,0.5); }
+.btn-back {
+  width: 52px;
+  flex-shrink: 0;
+  background: #0D1420;
+  border: 1.5px solid #1A2535;
+  color: #6B7A90;
+  font-size: 18px;
+}
+
+/* ============ DONE SCREEN ============ */
+#screen-done {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 24px;
+  animation: slideUp 0.4s ease;
+}
+.done-circle {
+  width: 84px; height: 84px;
+  background: linear-gradient(135deg, #0000FF, #0000FF);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px;
+  font-size: 36px;
+  box-shadow: 0 8px 32px rgba(220,38,38,0.45);
+}
+.done-title { font-size: 28px; font-weight: 900; margin-bottom: 12px; }
+.done-desc { font-size: 15px; color: #6B7A90; line-height: 1.65; max-width: 300px; margin: 0 auto 32px; }
+.btn-done {
+  background: linear-gradient(135deg, #0000FF, #0000CC);
+  color: white;
+  width: 100%;
+  max-width: 320px;
+  margin-bottom: 12px;
+}
+.btn-done-secondary {
+  background: #0D1420;
+  color: #6B7A90;
+  border: 1.5px solid #1A2535;
+  width: 100%;
+  max-width: 320px;
+  font-size: 13px;
+}
+
+.hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<!-- ==================== WELCOME ==================== -->
+<div id="screen-welcome">
+
+  <div class="logo-area">
+    <img src="assets/logo.png" alt="Logo"
+      onerror="this.outerHTML='<div class=\'logo-placeholder\'>COLOQUE SUA LOGO AQUI</div>'">
+  </div>
+
+  <div class="hero-photo">
+    <img src="assets/hero.png" alt="Foto"
+      onerror="this.outerHTML='<div class=\'hero-placeholder\'><span>📷</span>Coloque sua foto aqui<br><small style=\'font-size:11px;opacity:.5\'>assets/hero.png</small></div>'">
+  </div>
+
+  <div class="welcome-content">
+    <div class="welcome-badge">Anamnese Inicial</div>
+    <h1 class="welcome-title">STIMULUS <svg width="44" height="44" viewBox="0 0 24 24" fill="#0000FF" stroke="#0000FF" stroke-width="0.8" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-left:6px;margin-bottom:4px"><path d="M20.57 14.86L22 13.43 20.57 12 17 15.57 8.43 7 12 3.43 10.57 2 9.14 3.43 7.71 2 5.57 4.14 4.14 2.71 2.71 4.14l1.43 1.43L2 7.71l1.43 1.43L2 10.57 3.43 12 7 8.43 15.57 17 12 20.57 13.43 22l1.43-1.43L16.29 22l2.14-2.14 1.43 1.43 1.43-1.43-1.43-1.43L22 16.29z"/></svg></h1>
+    <div class="divider"></div>
+    <p class="welcome-desc">
+      Antes de qualquer treino, precisamos te <strong>conhecer de verdade</strong>.
+    </p>
+    <p class="welcome-desc" style="margin-bottom: 8px;">
+      Aqui começa a construção do seu programa — feito sob medida, com <strong>método e ciência</strong>, para o seu corpo e a sua rotina.
+    </p>
+    <p class="welcome-note">
+      Sem achismo. Sem genérico. <span class="hl">Com resultado.</span>
+    </p>
+    <button class="btn-welcome" onclick="startQuiz()">Começar Anamnese</button>
+  </div>
+</div>
+
+<!-- ==================== QUIZ ==================== -->
+<div id="screen-quiz" class="hidden">
+  <div class="quiz-header">
+    <div class="logo-small">
+      <img src="assets/logo.png" alt="Logo" style="height:34px;object-fit:contain"
+        onerror="this.outerHTML='<div class=\'logo-small-placeholder\'>MUSCLE LAB</div>'">
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-track">
+        <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+      </div>
+      <div class="progress-info">
+        <span class="progress-label" id="progress-label">Pergunta 1 de 19</span>
+        <span class="progress-pct" id="progress-pct">0%</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="question-area" id="question-area"></div>
+
+  <div class="quiz-footer">
+    <div class="quiz-footer-inner">
+      <button class="btn btn-back" id="btn-back" onclick="prevQ()">←</button>
+      <button class="btn btn-primary" id="btn-next" onclick="nextQ()">Continuar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== DONE ==================== -->
+<div id="screen-done" class="hidden">
+  <div class="done-circle">✓</div>
+  <h2 class="done-title">Anamnese Concluída!</h2>
+  <p class="done-desc" style="color:#F1F5F9;font-size:16px;font-weight:600;margin-bottom:6px;">
+    Obrigado por dedicar seu tempo! 🙏
+  </p>
+  <p class="done-desc">
+    Suas respostas foram recebidas com sucesso. Em breve, um dos nossos consultores entrará em contato com você pelo <span style="color:#25D366;font-weight:700;">WhatsApp</span> para apresentar seu plano estratégico personalizado. 💪
+  </p>
+  <div style="display:flex;align-items:center;gap:10px;background:#0D1420;border:1px solid #1A2535;border-radius:14px;padding:14px 20px;margin-bottom:28px;max-width:320px;width:100%;">
+    <span style="font-size:28px;">📲</span>
+    <span style="font-size:13px;color:#6B7A90;line-height:1.5;text-align:left;">Fique de olho no seu WhatsApp — nosso time já foi notificado!</span>
+  </div>
+  <button class="btn btn-done" onclick="location.href='index.html'">Nova Anamnese</button>
+  <button class="btn btn-done-secondary" onclick="location.href='admin.html'">Área Admin</button>
+</div>
+
+<script>
+const QUESTIONS = [
+  {
+    id: 'nome',
+    type: 'text',
+    title: 'Qual é o seu nome completo?',
+    placeholder: 'Digite seu nome aqui',
+    required: true
+  },
+  {
+    id: 'sexo',
+    type: 'radio',
+    title: 'Qual é o seu sexo?',
+    options: ['Masculino', 'Feminino', 'Prefiro não informar'],
+    required: true
+  },
+  {
+    id: 'idade',
+    type: 'radio',
+    title: 'Qual é a sua faixa de idade?',
+    options: ['Menor de 18 anos', '18 a 24 anos', '25 a 34 anos', '35 a 44 anos', '45 anos ou mais'],
+    required: true
+  },
+  {
+    id: 'altura',
+    type: 'unit',
+    title: 'Qual é a sua altura?',
+    placeholder: 'Ex: 175',
+    unit: 'cm',
+    required: true
+  },
+  {
+    id: 'peso',
+    type: 'unit',
+    title: 'Qual é o seu peso atual?',
+    placeholder: 'Ex: 75',
+    unit: 'kg',
+    required: true
+  },
+  {
+    id: 'fisico_sentimento',
+    type: 'combo',
+    title: 'Como você se sente em relação ao seu físico hoje?',
+    subtitle: 'Seja honesto — quanto mais detalhes, melhor conseguimos te ajudar.',
+    textId: 'fisico_descricao',
+    textLabel: 'Descreva com suas palavras:',
+    textPlaceholder: 'Ex: Quero ganhar massa, mas sinto que não evoluo mesmo treinando há meses...',
+    maxLength: 250,
+    radioLabel: 'Qual opção mais se aproxima do que você sente?',
+    options: [
+      'Satisfeito com meus resultados atuais',
+      'Um pouco insatisfeito — está bom, mas poderia ser melhor',
+      'Frustrado — me esforcei bastante e não vejo o resultado esperado',
+      'Muito travado / estagnado / sem evolução nenhuma'
+    ],
+    required: true
+  },
+  {
+    id: 'objetivo',
+    type: 'radio',
+    title: 'Qual é o seu principal objetivo?',
+    options: [
+      'Hipertrofia / Ganho de massa muscular',
+      'Emagrecimento / Perda de gordura',
+      'Definição muscular',
+      'Condicionamento físico',
+      'Saúde e reabilitação'
+    ],
+    required: true
+  },
+  {
+    id: 'experiencia',
+    type: 'radio',
+    title: 'Qual é o seu nível de experiência com treinos?',
+    options: [
+      'Nunca treinei',
+      'Iniciante — menos de 1 ano',
+      'Intermediário — 1 a 3 anos',
+      'Avançado — mais de 3 anos'
+    ],
+    required: true
+  },
+  {
+    id: 'dias_treino',
+    type: 'radio',
+    title: 'Quantos dias por semana você tem disponíveis para treinar?',
+    options: ['2 dias', '3 dias', '4 dias', '5 dias', '6 dias'],
+    required: true
+  },
+  {
+    id: 'local_treino',
+    type: 'radio',
+    title: 'Onde você costuma treinar?',
+    options: ['Academia', 'Em casa', 'Ao ar livre', 'Academia e em casa'],
+    required: true
+  },
+  {
+    id: 'lesao',
+    type: 'radio_followup',
+    title: 'Você possui alguma lesão ou limitação física?',
+    options: ['Sim', 'Não'],
+    followup: {
+      trigger: 'Sim',
+      id: 'qual_lesao',
+      label: 'Descreva sua lesão ou limitação:',
+      placeholder: 'Ex: Hérnia de disco, dor no joelho, tendinite...'
+    },
+    required: true
+  },
+  {
+    id: 'medicamento',
+    type: 'radio_followup',
+    title: 'Você faz uso de algum medicamento?',
+    options: ['Sim', 'Não'],
+    followup: {
+      trigger: 'Sim',
+      id: 'qual_medicamento',
+      label: 'Qual(is) medicamento(s)?',
+      placeholder: 'Ex: Ritalina, metformina, anticoncepcional...'
+    },
+    required: true
+  },
+  {
+    id: 'sono',
+    type: 'radio',
+    title: 'Como você avalia sua qualidade de sono?',
+    options: [
+      'Ruim — menos de 5 horas por noite',
+      'Média — 6 a 7 horas por noite',
+      'Boa — 7 horas ou mais por noite'
+    ],
+    required: true
+  },
+  {
+    id: 'estresse',
+    type: 'radio',
+    title: 'Como você avalia seu nível de estresse diário?',
+    options: ['Baixo', 'Médio', 'Alto', 'Muito alto'],
+    required: true
+  },
+  {
+    id: 'alimentacao',
+    type: 'radio',
+    title: 'Como você avalia a qualidade da sua alimentação?',
+    options: ['Péssima', 'Ruim', 'Regular', 'Boa', 'Ótima'],
+    required: true
+  },
+  {
+    id: 'restricao',
+    type: 'radio_followup',
+    title: 'Você possui alguma restrição alimentar?',
+    options: ['Sim', 'Não'],
+    followup: {
+      trigger: 'Sim',
+      id: 'qual_restricao',
+      label: 'Qual(is) restrição(ões)?',
+      placeholder: 'Ex: Intolerância à lactose, vegetariano, alergia a glúten...'
+    },
+    required: true
+  },
+  {
+    id: 'aparelhos_gosta',
+    type: 'textarea',
+    title: 'Quais aparelhos você mais gosta de usar na academia?',
+    subtitle: 'Conte os equipamentos e exercícios que você mais curte.',
+    placeholder: 'Ex: Supino, leg press, polia alta, agachamento...',
+    maxLength: 300,
+    required: false
+  },
+  {
+    id: 'aparelhos_falta',
+    type: 'textarea',
+    title: 'Quais aparelhos você sente falta de ter na sua academia?',
+    subtitle: 'Isso nos ajuda a entender melhor sua estrutura de treino.',
+    placeholder: 'Ex: Smith machine, leg curl, hack machine, cabo cruzado...',
+    maxLength: 300,
+    required: false
+  },
+  {
+    id: 'exercicios_nao_gosta',
+    type: 'textarea',
+    title: 'Quais exercícios você não gosta ou prefere evitar?',
+    placeholder: 'Ex: Agachamento livre, afundo, burpee, corrida...',
+    maxLength: 300,
+    required: false
+  },
+  {
+    id: 'observacoes',
+    type: 'textarea',
+    title: 'Alguma informação adicional que queira compartilhar?',
+    subtitle: 'Dúvidas, expectativas, histórico de treino — qualquer detalhe que achar importante.',
+    placeholder: 'Escreva aqui...',
+    maxLength: 500,
+    required: false
+  }
+]
+
+let idx = 0
+let answers = {}
+
+function startQuiz() {
+  document.getElementById('screen-welcome').classList.add('hidden')
+  document.getElementById('screen-quiz').classList.remove('hidden')
+  renderQ()
+}
+
+function renderQ() {
+  const q = QUESTIONS[idx]
+  const total = QUESTIONS.length
+  const pct = Math.round((idx / total) * 100)
+
+  document.getElementById('progress-fill').style.width = pct + '%'
+  document.getElementById('progress-label').textContent = `Pergunta ${idx + 1} de ${total}`
+  document.getElementById('progress-pct').textContent = pct + '%'
+  document.getElementById('btn-back').style.visibility = idx === 0 ? 'hidden' : 'visible'
+  document.getElementById('btn-next').textContent = idx === total - 1 ? 'Finalizar ✓' : 'Continuar'
+
+  const area = document.getElementById('question-area')
+  area.innerHTML = buildHTML(q)
+  window.scrollTo(0, 0)
+  restoreAnswer(q)
+}
+
+function buildHTML(q) {
+  let h = `<div class="question-block">`
+  h += `<div class="q-step">Pergunta ${idx + 1}</div>`
+  h += `<h2 class="q-title">${q.title}</h2>`
+  if (q.subtitle) h += `<p class="q-subtitle">${q.subtitle}</p>`
+  h += `<div class="q-body">`
+
+  if (q.type === 'text') {
+    h += `<input type="text" class="input-text" id="inp-${q.id}"
+      placeholder="${q.placeholder || ''}"
+      autocomplete="name"
+      oninput="answers['${q.id}']=this.value">`
+
+  } else if (q.type === 'unit') {
+    h += `<div class="unit-row">
+      <input type="number" class="input-text" id="inp-${q.id}"
+        placeholder="${q.placeholder || ''}"
+        inputmode="decimal"
+        oninput="answers['${q.id}']=this.value">
+      <span class="unit-badge">${q.unit}</span>
+    </div>`
+
+  } else if (q.type === 'textarea') {
+    const max = q.maxLength || 300
+    h += `<textarea class="input-text" id="inp-${q.id}" rows="4"
+      maxlength="${max}"
+      placeholder="${q.placeholder || ''}"
+      oninput="answers['${q.id}']=this.value;updateCtr('${q.id}',${max})"></textarea>
+      <div class="char-counter" id="ctr-${q.id}">0 / ${max}</div>`
+
+  } else if (q.type === 'radio') {
+    h += `<div class="options-list" id="opts-${q.id}">`
+    q.options.forEach((opt, i) => {
+      const safe = opt.replace(/'/g, "\\'")
+      h += `<div class="option-item" id="opt-${q.id}-${i}"
+        onclick="pickRadio('${q.id}',${i},'${safe}')">
+        <div class="o-dot"></div>
+        <span class="o-label">${opt}</span>
+      </div>`
+    })
+    h += `</div>`
+
+  } else if (q.type === 'combo') {
+    const max = q.maxLength || 250
+    h += `<p style="font-size:12px;color:#6B7A90;font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:7px;">${q.textLabel}</p>`
+    h += `<textarea class="input-text" id="inp-${q.textId}" rows="3"
+      maxlength="${max}"
+      placeholder="${q.textPlaceholder || ''}"
+      oninput="answers['${q.textId}']=this.value;updateCtr('${q.textId}',${max})"></textarea>
+      <div class="char-counter" id="ctr-${q.textId}">0 / ${max}</div>`
+    h += `<p style="font-size:13px;font-weight:700;color:#F1F5F9;margin:20px 0 10px;">${q.radioLabel}</p>`
+    h += `<div class="options-list" id="opts-${q.id}">`
+    q.options.forEach((opt, i) => {
+      const safe = opt.replace(/'/g, "\\'")
+      h += `<div class="option-item" id="opt-${q.id}-${i}"
+        onclick="pickRadio('${q.id}',${i},'${safe}')">
+        <div class="o-dot"></div>
+        <span class="o-label">${opt}</span>
+      </div>`
+    })
+    h += `</div>`
+
+  } else if (q.type === 'radio_followup') {
+    h += `<div class="options-list" id="opts-${q.id}">`
+    q.options.forEach((opt, i) => {
+      const safe = opt.replace(/'/g, "\\'")
+      h += `<div class="option-item" id="opt-${q.id}-${i}"
+        onclick="pickFollowup('${q.id}',${i},'${safe}','${q.followup.trigger}','${q.followup.id}')">
+        <div class="o-dot"></div>
+        <span class="o-label">${opt}</span>
+      </div>`
+    })
+    h += `</div>`
+    if (q.followup) {
+      h += `<div class="followup-box" id="fu-${q.id}">
+        <p class="followup-label">${q.followup.label}</p>
+        <input type="text" class="input-text" id="inp-${q.followup.id}"
+          placeholder="${q.followup.placeholder || ''}"
+          oninput="answers['${q.followup.id}']=this.value">
+      </div>`
+    }
+  }
+
+  h += `</div>`
+  h += `<div class="err-msg" id="err-${q.id}">⚠ Por favor, responda esta pergunta para continuar.</div>`
+  h += `</div>`
+  return h
+}
+
+function pickRadio(qId, i, val) {
+  const q = QUESTIONS[idx]
+  q.options.forEach((_, j) => document.getElementById(`opt-${qId}-${j}`)?.classList.remove('selected'))
+  document.getElementById(`opt-${qId}-${i}`).classList.add('selected')
+  answers[qId] = val
+  hideErr(qId)
+}
+
+function pickFollowup(qId, i, val, trigger, fuId) {
+  pickRadio(qId, i, val)
+  const fu = document.getElementById(`fu-${qId}`)
+  if (fu) {
+    if (val === trigger) fu.classList.add('open')
+    else { fu.classList.remove('open'); delete answers[fuId] }
+  }
+}
+
+function updateCtr(id, max) {
+  const el = document.getElementById(`inp-${id}`)
+  const ctr = document.getElementById(`ctr-${id}`)
+  if (el && ctr) ctr.textContent = `${el.value.length} / ${max}`
+}
+
+function hideErr(id) {
+  const el = document.getElementById(`err-${id}`)
+  if (el) el.style.display = 'none'
+}
+
+function restoreAnswer(q) {
+  const val = answers[q.id]
+  if (!val) return
+
+  if (q.type === 'text' || q.type === 'unit') {
+    const el = document.getElementById(`inp-${q.id}`)
+    if (el) el.value = val
+
+  } else if (q.type === 'textarea') {
+    const el = document.getElementById(`inp-${q.id}`)
+    if (el) { el.value = val; updateCtr(q.id, q.maxLength || 300) }
+
+  } else if (q.type === 'combo') {
+    const textEl = document.getElementById(`inp-${q.textId}`)
+    if (textEl && answers[q.textId]) { textEl.value = answers[q.textId]; updateCtr(q.textId, q.maxLength || 250) }
+    const i = q.options.indexOf(val)
+    if (i >= 0) document.getElementById(`opt-${q.id}-${i}`)?.classList.add('selected')
+
+  } else if (q.type === 'radio') {
+    const i = q.options.indexOf(val)
+    if (i >= 0) document.getElementById(`opt-${q.id}-${i}`)?.classList.add('selected')
+
+  } else if (q.type === 'radio_followup') {
+    const i = q.options.indexOf(val)
+    if (i >= 0) {
+      document.getElementById(`opt-${q.id}-${i}`)?.classList.add('selected')
+      if (val === q.followup.trigger) {
+        document.getElementById(`fu-${q.id}`)?.classList.add('open')
+        const fuEl = document.getElementById(`inp-${q.followup.id}`)
+        if (fuEl && answers[q.followup.id]) fuEl.value = answers[q.followup.id]
+      }
+    }
+  }
+}
+
+function validate() {
+  const q = QUESTIONS[idx]
+  if (!q.required) return true
+  const val = answers[q.id]
+  const errEl = document.getElementById(`err-${q.id}`)
+  let ok = false
+
+  if (q.type === 'text' || q.type === 'unit') ok = val && val.toString().trim() !== ''
+  else if (q.type === 'radio' || q.type === 'radio_followup') ok = !!val
+  else if (q.type === 'combo') ok = !!val
+
+  if (!ok && errEl) errEl.style.display = 'block'
+  return ok
+}
+
+function nextQ() {
+  if (!validate()) return
+  if (idx < QUESTIONS.length - 1) { idx++; renderQ() }
+  else finish()
+}
+
+function prevQ() {
+  if (idx > 0) { idx--; renderQ() }
+}
+
+function finish() {
+  const record = {
+    _id: Date.now(),
+    _data: new Date().toLocaleString('pt-BR'),
+    ...answers
+  }
+  const all = JSON.parse(localStorage.getItem('ml_respostas') || '[]')
+  all.push(record)
+  localStorage.setItem('ml_respostas', JSON.stringify(all))
+
+  document.getElementById('screen-quiz').classList.add('hidden')
+  document.getElementById('screen-done').classList.remove('hidden')
+  window.scrollTo(0, 0)
+}
+</script>
+</body>
+</html>

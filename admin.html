@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin · Stimulus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Inter', sans-serif;
+  background: #06090F;
+  color: #F1F5F9;
+  min-height: 100vh;
+}
+
+/* ===== LOGIN ===== */
+#screen-login {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.login-box {
+  width: 100%;
+  max-width: 380px;
+  background: #0D1420;
+  border: 1px solid #1A2535;
+  border-radius: 20px;
+  padding: 40px 32px;
+  text-align: center;
+}
+.login-icon {
+  width: 64px; height: 64px;
+  background: linear-gradient(135deg, #0000FF, #0000FF);
+  border-radius: 16px;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 20px;
+  font-size: 28px;
+  box-shadow: 0 8px 24px rgba(0, 0, 255,0.35);
+}
+.login-title { font-size: 22px; font-weight: 800; margin-bottom: 4px; }
+.login-sub { font-size: 13px; color: #4B5563; margin-bottom: 28px; }
+.login-input {
+  width: 100%;
+  background: #06090F;
+  border: 1.5px solid #1A2535;
+  border-radius: 10px;
+  padding: 13px 16px;
+  font-size: 15px;
+  color: #F1F5F9;
+  font-family: 'Inter', sans-serif;
+  outline: none;
+  margin-bottom: 14px;
+  transition: border-color 0.18s;
+  -webkit-appearance: none;
+}
+.login-input:focus { border-color: #0000FF; }
+.login-err { color: #99AAFF; font-size: 12px; margin-bottom: 12px; display: none; }
+.btn-login {
+  width: 100%;
+  background: linear-gradient(135deg, #0000FF, #0000CC);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 14px;
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0, 0, 255,0.35);
+  transition: all 0.18s;
+}
+.btn-login:hover { box-shadow: 0 6px 28px rgba(0, 0, 255,0.5); }
+.btn-login:active { transform: scale(0.98); }
+
+/* ===== DASHBOARD ===== */
+#screen-dash { display: none; min-height: 100vh; }
+.dash-header {
+  background: #0D1420;
+  border-bottom: 1px solid #1A2535;
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.header-left { display: flex; align-items: center; gap: 12px; }
+.header-logo {
+  font-size: 16px;
+  font-weight: 900;
+  letter-spacing: -0.3px;
+}
+.header-logo span { color: #0000FF; }
+.badge-admin {
+  background: rgba(0, 0, 255,0.15);
+  border: 1px solid rgba(0, 0, 255,0.3);
+  color: #99AAFF;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 6px;
+}
+.header-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.btn-act {
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.btn-act:active { transform: scale(0.97); }
+.btn-export { background: #1A2535; color: #94A3B8; border: 1px solid #1E2D45; }
+.btn-export:hover { background: #1E2D45; color: #F1F5F9; }
+.btn-logout { background: #0D1420; color: #6B7A90; border: 1px solid #1A2535; }
+.btn-logout:hover { color: #99AAFF; border-color: rgba(0, 0, 255,0.3); }
+.btn-quiz { background: linear-gradient(135deg,#0000FF,#0000CC); color: white; }
+
+/* Stats bar */
+.stats-bar {
+  display: flex;
+  gap: 16px;
+  padding: 20px 24px;
+  flex-wrap: wrap;
+}
+.stat-card {
+  background: #0D1420;
+  border: 1px solid #1A2535;
+  border-radius: 12px;
+  padding: 16px 20px;
+  min-width: 140px;
+  flex: 1;
+}
+.stat-num {
+  font-size: 28px;
+  font-weight: 900;
+  color: #0000FF;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.stat-label { font-size: 12px; color: #4B5563; font-weight: 500; }
+
+/* Search */
+.search-bar {
+  padding: 0 24px 16px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.search-input {
+  flex: 1;
+  min-width: 200px;
+  background: #0D1420;
+  border: 1.5px solid #1A2535;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 14px;
+  color: #F1F5F9;
+  font-family: 'Inter', sans-serif;
+  outline: none;
+  transition: border-color 0.18s;
+}
+.search-input:focus { border-color: #0000FF; }
+.search-input::placeholder { color: #374151; }
+
+/* Empty state */
+.empty-state {
+  text-align: center;
+  padding: 80px 24px;
+  color: #374151;
+}
+.empty-icon { font-size: 48px; margin-bottom: 16px; }
+.empty-title { font-size: 18px; font-weight: 700; margin-bottom: 8px; color: #4B5563; }
+.empty-desc { font-size: 13px; }
+
+/* Cards grid */
+.cards-grid {
+  padding: 0 24px 40px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 16px;
+}
+
+.resp-card {
+  background: #0D1420;
+  border: 1px solid #1A2535;
+  border-radius: 16px;
+  overflow: hidden;
+  transition: border-color 0.18s;
+}
+.resp-card:hover { border-color: #0000FF; }
+.card-header {
+  padding: 16px 18px 14px;
+  border-bottom: 1px solid #1A2535;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.card-name { font-size: 16px; font-weight: 800; color: #F1F5F9; }
+.card-date { font-size: 11px; color: #4B5563; }
+.card-del {
+  background: transparent;
+  border: none;
+  color: #374151;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 4px 6px;
+  border-radius: 6px;
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+.card-del:hover { background: rgba(0, 0, 255,0.15); color: #99AAFF; }
+
+.card-body { padding: 14px 18px 18px; }
+.card-objetivo {
+  display: inline-block;
+  background: rgba(0, 0, 255,0.12);
+  border: 1px solid rgba(0, 0, 255,0.25);
+  color: #99AAFF;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 20px;
+  margin-bottom: 14px;
+}
+.field-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.field-item {}
+.field-key { font-size: 10px; color: #4B5563; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; }
+.field-val { font-size: 13px; color: #94A3B8; font-weight: 500; }
+.field-val.highlight { color: #0000FF; }
+
+.text-fields { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; }
+.text-field {}
+.text-field .field-key { margin-bottom: 3px; }
+.text-field .field-val { font-size: 12px; line-height: 1.5; color: #6B7A90; }
+
+.card-expand {
+  background: none;
+  border: none;
+  color: #4B5563;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 6px 0 0;
+  font-family: 'Inter', sans-serif;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: color 0.15s;
+}
+.card-expand:hover { color: #0000FF; }
+
+.card-full { display: none; margin-top: 10px; }
+.card-full.open { display: block; }
+
+/* Table view (desktop) */
+.table-wrap {
+  padding: 0 24px 40px;
+  overflow-x: auto;
+  display: none;
+}
+.resp-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  min-width: 900px;
+}
+.resp-table th {
+  background: #0D1420;
+  color: #4B5563;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 1px solid #1A2535;
+  white-space: nowrap;
+  position: sticky;
+  top: 0;
+}
+.resp-table td {
+  padding: 11px 12px;
+  border-bottom: 1px solid #0D1420;
+  color: #94A3B8;
+  vertical-align: top;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.resp-table tr:hover td { background: #0D1420; }
+.resp-table td:first-child { color: #F1F5F9; font-weight: 600; }
+.del-btn {
+  background: transparent;
+  border: none;
+  color: #374151;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 4px 6px;
+  border-radius: 4px;
+  transition: all 0.15s;
+}
+.del-btn:hover { background: rgba(0, 0, 255,0.15); color: #99AAFF; }
+
+/* View toggle */
+.view-toggle { display: flex; gap: 4px; }
+.btn-view {
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  border: 1px solid #1A2535;
+  background: transparent;
+  color: #4B5563;
+  transition: all 0.15s;
+}
+.btn-view.active { background: #0000FF; color: white; border-color: #0000FF; }
+
+.hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<!-- ===== LOGIN ===== -->
+<div id="screen-login">
+  <div class="login-box">
+    <div class="login-icon">🔐</div>
+    <h1 class="login-title">Área Restrita</h1>
+    <p class="login-sub">Stimulus · Admin</p>
+    <input type="password" class="login-input" id="pw-input"
+      placeholder="Digite a senha"
+      onkeydown="if(event.key==='Enter')doLogin()">
+    <div class="login-err" id="login-err">Senha incorreta. Tente novamente.</div>
+    <button class="btn-login" onclick="doLogin()">Entrar</button>
+  </div>
+</div>
+
+<!-- ===== DASHBOARD ===== -->
+<div id="screen-dash">
+
+  <div class="dash-header">
+    <div class="header-left">
+      <span class="header-logo">STIMULUS</span>
+      <span class="badge-admin">Admin</span>
+    </div>
+    <div class="header-actions">
+      <div class="view-toggle">
+        <button class="btn-view active" id="btn-cards" onclick="setView('cards')">⊞ Cards</button>
+        <button class="btn-view" id="btn-table" onclick="setView('table')">☰ Tabela</button>
+      </div>
+      <button class="btn-act btn-export" onclick="exportCSV()">⬇ Exportar CSV</button>
+      <button class="btn-act btn-quiz" onclick="location.href='index.html'">+ Nova Anamnese</button>
+      <button class="btn-act btn-logout" onclick="logout()">Sair</button>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-bar" id="stats-bar"></div>
+
+  <!-- Search -->
+  <div class="search-bar">
+    <input type="text" class="search-input" id="search-input"
+      placeholder="🔍  Buscar por nome, objetivo, local..."
+      oninput="renderDash()">
+  </div>
+
+  <!-- Cards view -->
+  <div class="cards-grid" id="cards-grid"></div>
+
+  <!-- Table view -->
+  <div class="table-wrap" id="table-wrap">
+    <table class="resp-table" id="resp-table">
+      <thead id="table-head"></thead>
+      <tbody id="table-body"></tbody>
+    </table>
+  </div>
+
+  <div class="empty-state hidden" id="empty-state">
+    <div class="empty-icon">📋</div>
+    <div class="empty-title">Nenhuma resposta ainda</div>
+    <div class="empty-desc">As anamneses preenchidas aparecerão aqui.</div>
+  </div>
+
+</div>
+
+<script>
+// ── CHANGE PASSWORD HERE ──
+const ADMIN_PASSWORD = 'musclelab2025'
+// ─────────────────────────
+
+const FIELDS = {
+  nome:                 'Nome',
+  sexo:                 'Sexo',
+  idade:                'Faixa Etária',
+  altura:               'Altura (cm)',
+  peso:                 'Peso (kg)',
+  objetivo:             'Objetivo',
+  experiencia:          'Experiência',
+  dias_treino:          'Dias de Treino',
+  local_treino:         'Local de Treino',
+  lesao:                'Possui Lesão?',
+  qual_lesao:           'Qual Lesão',
+  medicamento:          'Usa Medicamento?',
+  qual_medicamento:     'Qual Medicamento',
+  sono:                 'Qualidade do Sono',
+  estresse:             'Nível de Estresse',
+  alimentacao:          'Alimentação',
+  restricao:            'Restrição Alimentar?',
+  qual_restricao:       'Qual Restrição',
+  aparelhos_gosta:      'Aparelhos que Gosta',
+  aparelhos_falta:      'Aparelhos que Sente Falta',
+  exercicios_nao_gosta: 'Exercícios que Evita',
+  observacoes:          'Observações'
+}
+
+const SHORT_FIELDS = ['sexo','idade','altura','peso','experiencia','dias_treino','local_treino','lesao','medicamento','sono','estresse','alimentacao','restricao']
+const TEXT_FIELDS = ['qual_lesao','qual_medicamento','qual_restricao','aparelhos_gosta','aparelhos_falta','exercicios_nao_gosta','observacoes']
+
+let currentView = 'cards'
+
+function doLogin() {
+  const pw = document.getElementById('pw-input').value
+  const err = document.getElementById('login-err')
+  if (pw === ADMIN_PASSWORD) {
+    document.getElementById('screen-login').classList.add('hidden')
+    document.getElementById('screen-dash').style.display = 'block'
+    renderDash()
+  } else {
+    err.style.display = 'block'
+    document.getElementById('pw-input').value = ''
+    document.getElementById('pw-input').focus()
+  }
+}
+
+function logout() {
+  document.getElementById('screen-dash').style.display = 'none'
+  document.getElementById('screen-login').classList.remove('hidden')
+  document.getElementById('pw-input').value = ''
+  document.getElementById('login-err').style.display = 'none'
+}
+
+function getAll() {
+  return JSON.parse(localStorage.getItem('ml_respostas') || '[]')
+}
+
+function saveAll(arr) {
+  localStorage.setItem('ml_respostas', JSON.stringify(arr))
+}
+
+function deleteRecord(id) {
+  if (!confirm('Excluir esta anamnese?')) return
+  const arr = getAll().filter(r => r._id !== id)
+  saveAll(arr)
+  renderDash()
+}
+
+function setView(v) {
+  currentView = v
+  document.getElementById('btn-cards').classList.toggle('active', v === 'cards')
+  document.getElementById('btn-table').classList.toggle('active', v === 'table')
+  document.getElementById('cards-grid').style.display = v === 'cards' ? 'grid' : 'none'
+  document.getElementById('table-wrap').style.display = v === 'table' ? 'block' : 'none'
+  renderDash()
+}
+
+function renderDash() {
+  const q = (document.getElementById('search-input')?.value || '').toLowerCase().trim()
+  let all = getAll()
+  if (q) {
+    all = all.filter(r => {
+      return Object.values(r).some(v => v && v.toString().toLowerCase().includes(q))
+    })
+  }
+  all.sort((a, b) => b._id - a._id)
+
+  // Stats
+  const full = getAll()
+  const statsEl = document.getElementById('stats-bar')
+  statsEl.innerHTML = `
+    <div class="stat-card">
+      <div class="stat-num">${full.length}</div>
+      <div class="stat-label">Anamneses no total</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">${full.filter(r => r.objetivo?.includes('Hipertrofia')).length}</div>
+      <div class="stat-label">Objetivo: Hipertrofia</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">${full.filter(r => r.objetivo?.includes('Emagrecimento')).length}</div>
+      <div class="stat-label">Objetivo: Emagrecimento</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">${full.filter(r => r.lesao === 'Sim').length}</div>
+      <div class="stat-label">Com lesão</div>
+    </div>
+  `
+
+  const emptyEl = document.getElementById('empty-state')
+  if (all.length === 0) {
+    emptyEl.classList.remove('hidden')
+    document.getElementById('cards-grid').innerHTML = ''
+    document.getElementById('table-body').innerHTML = ''
+    return
+  }
+  emptyEl.classList.add('hidden')
+
+  if (currentView === 'cards') renderCards(all)
+  else renderTable(all)
+}
+
+function renderCards(all) {
+  const grid = document.getElementById('cards-grid')
+  grid.innerHTML = all.map(r => {
+    const name = r.nome || '(sem nome)'
+    const obj = r.objetivo || '—'
+    const date = r._data || ''
+
+    const shortRows = SHORT_FIELDS.filter(f => r[f] && r[f] !== '—').map(f =>
+      `<div class="field-item">
+        <div class="field-key">${FIELDS[f]}</div>
+        <div class="field-val">${r[f]}</div>
+      </div>`
+    ).join('')
+
+    const textRows = TEXT_FIELDS.filter(f => r[f] && r[f].trim()).map(f =>
+      `<div class="text-field">
+        <div class="field-key">${FIELDS[f]}</div>
+        <div class="field-val">${escHtml(r[f])}</div>
+      </div>`
+    ).join('')
+
+    return `
+    <div class="resp-card">
+      <div class="card-header">
+        <div>
+          <div class="card-name">${escHtml(name)}</div>
+          <div class="card-date">${date}</div>
+        </div>
+        <button class="card-del" onclick="deleteRecord(${r._id})" title="Excluir">✕</button>
+      </div>
+      <div class="card-body">
+        <span class="card-objetivo">${escHtml(obj)}</span>
+        <div class="field-grid">${shortRows}</div>
+        ${textRows ? `
+          <button class="card-expand" onclick="toggleCard(this)">
+            Ver respostas abertas ↓
+          </button>
+          <div class="card-full">
+            <div class="text-fields">${textRows}</div>
+          </div>
+        ` : ''}
+      </div>
+    </div>`
+  }).join('')
+}
+
+function toggleCard(btn) {
+  const full = btn.nextElementSibling
+  const open = full.classList.toggle('open')
+  btn.textContent = open ? 'Recolher ↑' : 'Ver respostas abertas ↓'
+}
+
+function renderTable(all) {
+  const cols = ['nome', ...SHORT_FIELDS, ...TEXT_FIELDS, '_data']
+  const head = document.getElementById('table-head')
+  const body = document.getElementById('table-body')
+
+  head.innerHTML = `<tr>
+    ${cols.map(c => `<th>${FIELDS[c] || c}</th>`).join('')}
+    <th></th>
+  </tr>`
+
+  body.innerHTML = all.map(r => `
+    <tr>
+      ${cols.map(c => `<td title="${escHtml(r[c] || '')}">${escHtml(r[c] || '—')}</td>`).join('')}
+      <td><button class="del-btn" onclick="deleteRecord(${r._id})">✕</button></td>
+    </tr>
+  `).join('')
+}
+
+function escHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+}
+
+function exportCSV() {
+  const all = getAll()
+  if (!all.length) { alert('Nenhuma resposta para exportar.'); return }
+
+  const cols = ['_data', 'nome', ...Object.keys(FIELDS)]
+  const headers = ['Data', 'Nome', ...Object.values(FIELDS)]
+
+  const rows = all.map(r =>
+    cols.map(c => {
+      const v = r[c] || ''
+      return `"${v.toString().replace(/"/g, '""')}"`
+    }).join(',')
+  )
+
+  const csv = '﻿' + headers.map(h => `"${h}"`).join(',') + '\n' + rows.join('\n')
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `anamneses_${new Date().toISOString().slice(0,10)}.csv`
+  a.click()
+  URL.revokeObjectURL(url)
+}
+
+document.getElementById('pw-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') doLogin()
+})
+</script>
+</body>
+</html>
