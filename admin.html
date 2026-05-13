@@ -410,10 +410,14 @@ const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyQQmqTZWTLxdNG3iQbd
 
 const FIELDS = {
   nome:                 'Nome',
+  instagram:            'Instagram',
+  whatsapp:             'WhatsApp',
   sexo:                 'Sexo',
   idade:                'Faixa Etária',
   altura:               'Altura (cm)',
   peso:                 'Peso (kg)',
+  fisico_sentimento:    'Sentimento sobre o Físico',
+  fisico_descricao:     'Descrição do Físico',
   objetivo:             'Objetivo',
   experiencia:          'Experiência',
   dias_treino:          'Dias de Treino',
@@ -433,8 +437,8 @@ const FIELDS = {
   observacoes:          'Observações'
 }
 
-const SHORT_FIELDS = ['sexo','idade','altura','peso','experiencia','dias_treino','local_treino','lesao','medicamento','sono','estresse','alimentacao','restricao']
-const TEXT_FIELDS = ['qual_lesao','qual_medicamento','qual_restricao','aparelhos_gosta','aparelhos_falta','exercicios_nao_gosta','observacoes']
+const SHORT_FIELDS = ['instagram','whatsapp','sexo','idade','altura','peso','fisico_sentimento','experiencia','dias_treino','local_treino','lesao','medicamento','sono','estresse','alimentacao','restricao']
+const TEXT_FIELDS = ['fisico_descricao','qual_lesao','qual_medicamento','qual_restricao','aparelhos_gosta','aparelhos_falta','exercicios_nao_gosta','observacoes']
 
 let currentView = 'cards'
 
