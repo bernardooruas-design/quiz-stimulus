@@ -384,6 +384,13 @@ body {
       oninput="renderDash()">
   </div>
 
+  <!-- Loading -->
+  <div id="loading-state" style="display:none;text-align:center;padding:60px 24px;">
+    <div style="width:36px;height:36px;border:3px solid #1A2535;border-top-color:#0000FF;border-radius:50%;animation:spin 0.7s linear infinite;margin:0 auto 16px;"></div>
+    <p style="color:#4B5563;font-size:14px;font-weight:500;">Buscando anamneses...</p>
+  </div>
+  <style>@keyframes spin{to{transform:rotate(360deg)}}</style>
+
   <!-- Cards view -->
   <div class="cards-grid" id="cards-grid"></div>
 
@@ -496,7 +503,13 @@ function setView(v) {
 
 async function renderDash() {
   const q = (document.getElementById('search-input')?.value || '').toLowerCase().trim()
+  document.getElementById('loading-state').style.display = 'block'
+  document.getElementById('cards-grid').style.display = 'none'
+  document.getElementById('table-wrap').style.display = 'none'
+  document.getElementById('empty-state').classList.add('hidden')
   let all = await getAll()
+  document.getElementById('loading-state').style.display = 'none'
+  document.getElementById('cards-grid').style.display = currentView === 'cards' ? 'grid' : 'none'
   if (q) {
     all = all.filter(r => {
       return Object.values(r).some(v => v && v.toString().toLowerCase().includes(q))
