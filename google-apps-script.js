@@ -10,7 +10,7 @@
 const COLS = [
   '_data', '_id', 'nome', 'instagram', 'whatsapp', 'sexo', 'idade',
   'altura', 'peso', 'fisico_descricao', 'fisico_sentimento', 'objetivo',
-  'experiencia', 'dias_treino', 'local_treino', 'lesao', 'qual_lesao',
+  'musculo_preferencia', 'musculo_detalhe', 'experiencia', 'dias_treino', 'local_treino', 'lesao', 'qual_lesao',
   'medicamento', 'qual_medicamento', 'sono', 'estresse', 'alimentacao',
   'restricao', 'qual_restricao', 'aparelhos_gosta', 'aparelhos_falta',
   'exercicios_nao_gosta', 'observacoes'
